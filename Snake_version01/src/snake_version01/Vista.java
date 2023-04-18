@@ -13,20 +13,17 @@ public class Vista extends javax.swing.JFrame {
     public Vista() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
            
         panel=new PanelSnake(700, 30);
         this.add(panel);
         panel.setBounds(10,10,700,700);
         panel.setOpaque(false);
         
-        
         PanelFondo Fondo=new PanelFondo(700, 30);
         this.add(Fondo);
         Fondo.setBounds(10,10,700,700);
-        
-     
-this.requestFocus(true);
+
+        this.requestFocus(true);
         
     }
 
@@ -75,17 +72,19 @@ this.requestFocus(true);
                       panel.repaint();
                 break;
                  case KeyEvent.VK_UP:
-                                     panel.cambiardireccion("ar");
-
-                panel.avanzar();
-                panel.repaint();
+                 panel.cambiardireccion("ar");
+                 panel.avanzar();
+                 panel.repaint();
                break;
-                  case KeyEvent.VK_DOWN:
-                                      panel.cambiardireccion("ab");
-
-                panel.avanzar();
-                panel.repaint();
+                 case KeyEvent.VK_DOWN:
+                 panel.cambiardireccion("ab");
+                 panel.avanzar();
+                 panel.repaint();
                 break;
+                 case KeyEvent.VK_SPACE:
+                 panel.cambiardireccion("stop");
+                 panel.avanzar();
+                 panel.repaint();
         }
     }//GEN-LAST:event_formKeyPressed
 
