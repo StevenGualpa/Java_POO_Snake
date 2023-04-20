@@ -1,6 +1,7 @@
 package snake_version01;
 
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -9,11 +10,17 @@ import java.awt.event.KeyEvent;
 public class Vista extends javax.swing.JFrame {
 
      PanelSnake panel;
-
+    Thread hilo;
+    SnakeTiempo tiempo;
+    String op="start";
+    
+    
     public Vista() {
         initComponents();
         this.setLocationRelativeTo(null);
            
+        
+        GestorPuntaje Gestor=new GestorPuntaje();
         panel=new PanelSnake(700, 30);
         this.add(panel);
         panel.setBounds(10,10,700,700);
@@ -25,6 +32,24 @@ public class Vista extends javax.swing.JFrame {
 
         this.requestFocus(true);
         
+       this.pack();
+       tiempo=new SnakeTiempo(jLabel2);
+       hilo =new Thread(tiempo);
+       hilo.start();
+       
+       SnakePuntaje puntaje=new SnakePuntaje(jLabel3);
+       Thread hil2=new Thread(puntaje);
+       hil2.start();
+        
+       
+    }
+    
+ 
+    
+    public void MovimientoSerpiente(String estado){
+        panel.cambiardireccion(estado);
+        panel.avanzar();
+        panel.repaint();
     }
 
     /**
@@ -36,23 +61,48 @@ public class Vista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(720, 720));
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel1.setText("Bienvenido");
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel2.setText("Tiempo:");
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel3.setText("Puntaje: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(748, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel1)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel2)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel3)
+                .addContainerGap(571, Short.MAX_VALUE))
         );
 
         pack();
@@ -62,29 +112,19 @@ public class Vista extends javax.swing.JFrame {
         // TODO add your handling code here:
         switch(evt.getKeyCode()){
             case KeyEvent.VK_LEFT:
-                panel.cambiardireccion("iz");
-                panel.avanzar();
-                panel.repaint();
+                MovimientoSerpiente("iz");
                 break;
-                  case KeyEvent.VK_RIGHT:
-                      panel.cambiardireccion("de");
-                      panel.avanzar();
-                      panel.repaint();
+            case KeyEvent.VK_RIGHT:
+                MovimientoSerpiente("de");
                 break;
                  case KeyEvent.VK_UP:
-                 panel.cambiardireccion("ar");
-                 panel.avanzar();
-                 panel.repaint();
+                 MovimientoSerpiente("ar");
                break;
                  case KeyEvent.VK_DOWN:
-                 panel.cambiardireccion("ab");
-                 panel.avanzar();
-                 panel.repaint();
+                 MovimientoSerpiente("ab");
                 break;
                  case KeyEvent.VK_SPACE:
-                 panel.cambiardireccion("stop");
-                 panel.avanzar();
-                 panel.repaint();
+                 MovimientoSerpiente("stop");
         }
     }//GEN-LAST:event_formKeyPressed
 
@@ -124,5 +164,8 @@ public class Vista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

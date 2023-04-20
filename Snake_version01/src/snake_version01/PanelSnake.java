@@ -2,8 +2,16 @@ package snake_version01;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -14,6 +22,8 @@ import javax.swing.JPanel;
 public class PanelSnake extends JPanel{
      Color colorsnake=Color.blue;
      Color colorcomida=Color.red;
+     GestorPuntaje Gestor;
+     
     int tammax,tam,can,res; 
     List<int []> snake =new ArrayList<>();
     String direccion="de";
@@ -21,8 +31,10 @@ public class PanelSnake extends JPanel{
     String estado="start";
     Thread hilo;
     Caminante camino;
+    int sss=0;
     
     int [] comida=new int [2];
+    public String tiempo="";
             
     public PanelSnake(int tanmax,int can)
     {  
@@ -38,9 +50,10 @@ public class PanelSnake extends JPanel{
         generarcomida();
         camino=new Caminante(this);
         hilo=new Thread(camino);
-        
+        Gestor=new GestorPuntaje();
+        Gestor.VaciarTexto();
         hilo.start();
-        
+
         
     }
 
@@ -60,6 +73,7 @@ public class PanelSnake extends JPanel{
     
     public void avanzar()    
     {
+      
         igualarDireccion();
          int [] ultimo=snake.get(snake.size()-1);
          int agregarx=0;
@@ -102,8 +116,23 @@ public class PanelSnake extends JPanel{
                  
              }else{
                  if(nuevo[0]==comida[0]&&nuevo[1]==comida[1]){
-                     snake.add(nuevo);
-                     generarcomida();
+                      snake.add(nuevo);
+                      generarcomida();
+                      Gestor=new GestorPuntaje();
+                      if(Gestor.Leer().equals("")){
+                          Gestor.Escribir("10");
+                      }
+                      else{
+                          int n=Integer.parseInt(Gestor.Leer());
+                          n=n+10;
+                          Gestor.VaciarTexto();
+                          Gestor.Escribir(Integer.toString(n));
+                      }
+                      
+                      
+                          
+
+
                  }
                  else{
                      snake.add(nuevo);
@@ -111,8 +140,11 @@ public class PanelSnake extends JPanel{
                  }
              }
          }
-
+       
     }
+    
+    
+    
     
     public void generarcomida(){
         boolean existe=false;
@@ -131,6 +163,8 @@ public class PanelSnake extends JPanel{
         {
             this.comida[0]=a;
             this.comida[1]=b;
+              
+              
         }
 
     }
@@ -156,4 +190,5 @@ public class PanelSnake extends JPanel{
     public void igualarDireccion(){
             this.direccion=this.direccionproxima;
     }  
+    
 }
